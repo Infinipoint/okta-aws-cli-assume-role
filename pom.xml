@@ -20,41 +20,42 @@
 
     <groupId>com.okta.developer</groupId>
     <artifactId>okta-aws-cli</artifactId>
-    <version>2.0.5-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <repositories>
-        <repository>
-            <id>shibboleth-nexus-releases</id>
-            <name>Shibboleth Nexux Releases</name>
-            <url>https://build.shibboleth.net/nexus/content/repositories/releases/</url>
-        </repository>
-    </repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <aws-java-sdk.version>1.11.515</aws-java-sdk.version>
-        <okta.version>1.2.0</okta.version>
-        <json.version>20180813</json.version>
-        <commons-configuration2.version>2.4</commons-configuration2.version>
-        <httpcomponents-httpclient.version>4.5.5</httpcomponents-httpclient.version>
+        <aws-java-sdk.version>2.15.69</aws-java-sdk.version>
+        <json.version>20200518</json.version>
+        <commons-configuration2.version>2.7</commons-configuration2.version>
+        <httpcomponents-httpclient.version>4.5.13</httpcomponents-httpclient.version>
         <junit.jupiter.version>5.4.0</junit.jupiter.version>
         <ini4j.version>0.5.4</ini4j.version>
-        <jsoup.version>1.11.3</jsoup.version>
-        <opensaml.version>3.4.2</opensaml.version>
+        <jsoup.version>1.14.2</jsoup.version>
+        <opensaml.version>3.4.6</opensaml.version>
         <slf4j.version>1.7.26</slf4j.version>
         <openjfx.version>12.0.1</openjfx.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-core</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>protocol-core</artifactId>
             <version>${aws-java-sdk.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sts</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-json-protocol</artifactId>
+            <version>${aws-java-sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>iam</artifactId>
+            <version>${aws-java-sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sts</artifactId>
             <version>${aws-java-sdk.version}</version>
         </dependency>
         <dependency>
@@ -188,7 +189,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>

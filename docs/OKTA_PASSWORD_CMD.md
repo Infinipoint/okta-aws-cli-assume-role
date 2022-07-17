@@ -4,10 +4,15 @@
 
 Please contribute additional examples for your favored platform or password manager.
 
+Notes:
+- You need to set `OKTA_BROWSER_AUTH=false` in order for this to work.
+- You need version 2.0.4 or greater of the `Okta AWS CLI Assume Role tool`.
+
 ## Example: macOS KeyChain
 
 1. Create password entry `security add-generic-password -a $OKTA_USERNAME -s okta-aws-cli -T /usr/bin/security -U`
-2. Launch KeyChain Access and search for **okta-aws-cli**
+2. Launch `KeyChain Access` and search for **okta-aws-cli**, enter the password and save the changes.
+   ![macos-keychain-access](./images/macos-keychain-access.png)
 3. Set OKTA_PASSWORD_CMD to `security find-generic-password -a $OKTA_USERNAME -s okta-aws-cli -w`
 
 ## Example: GNU/Linux [GNOME Keyring](https://wiki.gnome.org/Projects/GnomeKeyring)
@@ -38,6 +43,13 @@ Please contribute additional examples for your favored platform or password mana
    ```property
    OKTA_PASSWORD_CMD=@echo off & for /f \"usebackq tokens=*\" %a in (`PowerShell -Command \"(New-Object System.Management.Automation.PSCredential ($env:UserName, (Get-Content $env:USERPROFILE\\.okta\\.password | ConvertTo-SecureString))).GetNetworkCredential().Password\"`) do echo %a
    ````
+
+## Example: Plain text
+1. Not recommended but if you're stuck/desperate it works
+2. Add a `echo "XXXX"` to the `~/.okta/config.properties` file for your password
+```bash
+OKTA_PASSWORD_CMD=echo "mypassword"
+```
 
 ## Example: Lastpass
 1. Install LassPass' CLI tool, lpass

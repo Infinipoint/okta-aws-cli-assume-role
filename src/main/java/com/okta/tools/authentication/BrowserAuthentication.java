@@ -83,7 +83,7 @@ public final class BrowserAuthentication extends Application {
         webEngine.locationProperty()
                 .addListener((ov, oldLocation, newLocation) -> {
                     if (webEngine.getDocument() != null) {
-                        checkForAwsSamlSignon(stage, webEngine);
+                        checkForAwsSamlSignon(stage, webEngine, newLocation);
                         stage.setTitle(webEngine.getLocation());
                     }
                 });
@@ -103,20 +103,23 @@ public final class BrowserAuthentication extends Application {
 
     private void initializeCookies(URI uri) throws IOException {
         Map<String, List<String>> headers = cookieHelper.loadCookieHeaders();
-        java.net.CookieHandler.setDefault(new CookieManager(cookieHelper));
+        java.net.CookieHandler.setDefault(new CookieManager(cookieHelper, uri));
         java.net.CookieHandler.getDefault().put(uri, headers);
     }
 
-    private void checkForAwsSamlSignon(Stage stage, WebEngine webEngine) {
-        String samlResponseForAws = getSamlResponseForAws(webEngine.getDocument());
+    private void checkForAwsSamlSignon(Stage stage, WebEngine webEngine, String newLocation) {
+        String samlResponseForAws = getSamlResponseForAws(webEngine.getDocument(), newLocation);
         if (samlResponseForAws != null) {
             finishAuthentication(stage, samlResponseForAws);
         }
     }
 
-    private String getSamlResponseForAws(Document document) {
+    private String getSamlResponseForAws(Document document, String newLocation) {
         Node awsStsSamlForm = getAwsStsSamlForm(document);
         if (awsStsSamlForm == null) return null;
+        if (environment.oktaIgnoreSaml != null) {
+            if (newLocation.contains(environment.oktaIgnoreSaml))return null;
+        }
         return getSamlResponseFromForm(awsStsSamlForm);
     }
 

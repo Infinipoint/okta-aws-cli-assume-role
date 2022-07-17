@@ -2,7 +2,7 @@
 
  :information_source: **Disclaimer:** This tool is community-supported and is maintained by members of the Okta team for developers and IT professionals. This tool is not an official Okta product and does not qualify for any Okta support. Anyone who chooses to use this tool must ensure that their implementation meets any applicable legal obligations including any Okta terms and conditions.
 
-New to Amazon Web Services with Okta? **Start with the [Configuring AWS in Okta](#configuring-aws-in-okta).
+New to Amazon Web Services with Okta? **Start with the [Configuring AWS in Okta](#configuring-aws-in-okta)**.
 
 This tool has been verified to work on macOS Sierra, High Sierra, Windows Server 2012 R2, Windows 10, and Ubuntu 16.04 LTS, and is expected to work on other Linux systems as well.
 
@@ -30,7 +30,7 @@ This tool has been verified to work on macOS Sierra, High Sierra, Windows Server
 
 1. Run the following in a [PowerShell console](http://technet.microsoft.com/library/hh831491.aspx#start-windows-powershell)
     ```pwsh
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy unrestricted -Force; Invoke-Expression ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/oktadeveloper/okta-aws-cli-assume-role/master/bin/Install-OktaAwsCli.ps1')); .$profile
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy unrestricted -Force; Invoke-Expression ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/oktadev/okta-aws-cli-assume-role/master/bin/Install-OktaAwsCli.ps1')); .$profile
     ```
 2. Customize **%userprofile%\\.okta\\config.properties** and set **OKTA_ORG** and **OKTA_AWS_APP_URL** appropriately. For example,
    ```properties
@@ -44,16 +44,16 @@ This tool has been verified to work on macOS Sierra, High Sierra, Windows Server
    `PREFIX` value (default: `~/.okta`):
 
     ```bash
-    PREFIX=~/.okta bash <(curl -fsSL https://raw.githubusercontent.com/oktadeveloper/okta-aws-cli-assume-role/master/bin/install.sh) -i
+    PREFIX=~/.okta bash <(curl -fsSL https://raw.githubusercontent.com/oktadev/okta-aws-cli-assume-role/master/bin/install.sh) -i
     ```
 
-2. Customize **~/.okta/config.properties** and set **OKTA_ORG** and **OKTA_AWS_APP_URL** appropriately. For example,
+2. Customize `~/.okta/config.properties` and set **OKTA_ORG** and **OKTA_AWS_APP_URL** appropriately. For example,
    
    ```properties
    OKTA_ORG=acmecorp.oktapreview.com
    OKTA_AWS_APP_URL=https://acmecorp.oktapreview.com/home/amazon_aws/0oa5zrwfs815KJmVF0h7/137
    ```
-3. Make sure **/usr/local/bin** (or whatever $PREFIX/bin is) is in your PATH
+3. Make sure `/usr/local/bin` (or whatever `$PREFIX/bin` is) is in your **PATH**
 
 ### Docker
 
@@ -75,7 +75,7 @@ Read more at [@tom-smith-okta's okta-awscli-java Docker repo](https://hub.docker
 Create a `.okta` directory in your home directory. For example, `~/.okta`.
 
 Download the latest release JAR and put it in `.okta`:
-https://github.com/oktadeveloper/okta-aws-cli-assume-role/releases
+https://github.com/oktadev/okta-aws-cli-assume-role/releases
 
 Create `~/.okta/config.properties` and set
 **OKTA_ORG** and **OKTA_AWS_APP_URL** appropriately. For example,
@@ -91,7 +91,7 @@ Create `~/.okta/logging.properties` with the following content,
 com.amazonaws.auth.profile.internal.BasicProfileConfigLoader = NONE
 ```
 
-Copy scripts from `.okta/bin` to somewhere on your PATH.
+Copy scripts from `.okta/bin` to somewhere on your **PATH**.
 
 ## Usage
 
@@ -121,7 +121,7 @@ The proxy URI _must_ be of the form `http://host:port/`. Both the host and port 
 
 ## Compiling the application
 
-The application was built and compiled with [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/). Note that you don't have to compile the application in order to be able to execute it, since the compiled executable (a JAR file) is available [on GitHub](https://github.com/oktadeveloper/okta-aws-cli-assume-role/releases).
+The application was built and compiled with [JetBrains' IntelliJ IDEA](https://www.jetbrains.com/idea/). Note that you don't have to compile the application in order to be able to execute it, since the compiled executable (a JAR file) is available [on GitHub](https://github.com/oktadev/okta-aws-cli-assume-role/releases).
 
 ### Prerequisites
 First of all, it goes without saying that you will need to install the [Java SE 11x](http://www.oracle.com/technetwork/java/javase/downloads/index.html) or the [Java JDK 11x](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html).
@@ -132,7 +132,7 @@ Then you will need [Maven 2 or later](https://maven.apache.org/install.html) to 
 
 Get a single JAR with all dependencies:
 
-Use ```git clone https://github.com/oktadeveloper/okta-aws-cli-assume-role.git``` to clone the repository locally. Then, build with Maven:
+Use ```git clone https://github.com/oktadev/okta-aws-cli-assume-role.git``` to clone the repository locally. Then, build with Maven:
 
 ```bash
 mvn package
@@ -141,7 +141,9 @@ cp target/okta-aws-cli-*.jar ~/.okta/okta-aws-cli.jar
 
 ## Configuring AWS in Okta
 
-[Integrating the Amazon Web Services Command Line Interface Using Okta](https://support.okta.com/help/Documentation/Knowledge_Article/Integrating-the-Amazon-Web-Services-Command-Line-Interface-Using-Okta). 
+See for details on setting up [Amazon Web Services Account Federation](https://help.okta.com/en/prod/Content/Topics/DeploymentGuides/AWS/aws-deployment.htm) to allow logging into AWS through Okta and this tool.
+
+An alternative integration can be found in [Integrating the Amazon Web Services Command Line Interface Using Okta](https://support.okta.com/help/Documentation/Knowledge_Article/Integrating-the-Amazon-Web-Services-Command-Line-Interface-Using-Okta), which allows logging into AWS / Okta through the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html). The okta-aws-cli is _not_ compatible with this integration.
 
 ## Configuring the application
 Here is the list of parameters that can be environment variables or settings in the ```~/.okta/config.properties``` file:
@@ -153,11 +155,13 @@ Here is the list of parameters that can be environment variables or settings in 
   - ```OKTA_ENV_MODE``` set to **true** to run sub-command with **AWS_ACCESS_KEY_ID**, **AWS_SECRET_ACCESS_KEY**, and **AWS_SESSION_TOKEN** env vars set. Temporary credentials are shared in memory and kept off disk in this mode. (default: **false**)
   - ```OKTA_BROWSER_AUTH``` set to **true** to use integrated web browser for authentication (default: **false**)
   - ```OKTA_COOKIES_PATH``` is directory path to store cookies.properties for Okta. This is particularly useful when running this tool in many concurrent processes like you might with **OKTA_ENV_MODE** (default: ~/.okta)
-  - ```OKTA_PROFILE``` is the name of the AWS profile to create/reuse.  May also be specified on the commandline by ```--profile```. (default: get AWS profile name based on per-session STS user name)  
+  - ```OKTA_PROFILE``` is the name of the AWS profile to create/reuse. (default: get AWS profile name based on per-session STS user name)  
   - ```OKTA_AWS_REGION``` is the default AWS region to store with the created profile.
   - ```OKTA_AWS_ROLE_TO_ASSUME``` is the IAM Role ARN to use. If present will try to match okta account's retrieved role list and use it. Will still prompt if no match found. (ex: **arn:aws:iam::123456789012:role/EC2-Admins**)
   - ```OKTA_STS_DURATION``` is the duration the role will be assumed, in seconds. The maximum session duration allowed by AWS is 12 hours and this needs to be set on the role as well.  Defaults to 1hr.
   - ```OKTA_MFA_CHOICE``` is the provider and factor type to use if prompted for MFA.  Example: ```OKTA.push```. See [Factors documentation](https://developer.okta.com/docs/api/resources/factors#factor-type) for values. (default: use single factor or prompt user to select from usable factors).
+  - ```OKTA_IGNORE_SAML_REQ_CONTAIN``` is an optional parameter that allow users to ignore parsing SAML requests, where the URL contains a specific string . This is relevant when using the custom IdP factor, which adds additional SAML requests to users authentication flow. See [Custom IdP Factor Authentication
+](https://help.okta.com/en/prod/Content/Topics/Security/MFA_Custom_Factor.htm) for more details. Defaults to an empty string.
   
   - **Obtaining the AWS app url**
     - Navigate to the ```Admin Dashboard``` of you Okta organization
