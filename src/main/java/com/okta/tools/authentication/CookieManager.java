@@ -20,8 +20,7 @@ import com.okta.tools.helpers.CookieHelper;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Adaptor for {@link com.sun.webkit.network.CookieManager} that stores cookies
@@ -44,9 +43,40 @@ public final class CookieManager extends CookieHandler {
 
     @Override
     public void put(URI uri, Map<String,List<String>> responseHeaders) throws IOException {
+
+        //temp (un)fix for java-fx cookies reversal temp fix for https://bugs.java.com/bugdatabase/view_bug.do?bug_id=7059532
+        responseHeaders = fixCookie(uri, responseHeaders);
+
         if (uri.getAuthority().equals(targetDomain)) {
             cookieHelper.storeCookies(responseHeaders);
         }
         cookieHandler.put(uri, responseHeaders);
+    }
+
+    private Map<String,List<String>> fixCookie(URI uri, Map<String,List<String>> responseHeaders)  {
+        Map<String, List<String>> res = new HashMap<>();
+        if (responseHeaders == null) {
+            return res;
+        }
+
+        for (Map.Entry<String,List<String>> entry : responseHeaders.entrySet())
+        {
+            String key = entry.getKey();
+            if (!"Set-Cookie".equalsIgnoreCase(key)) {
+                res.put(key, entry.getValue());
+                continue;
+            }
+
+            List<String> attrs = new ArrayList<>();
+            ListIterator<String> it = entry.getValue().listIterator(entry.getValue().size());
+
+            while (it.hasPrevious()) {
+                attrs.add(it.previous());
+            }
+
+            res.put(key, attrs);
+        }
+
+        return res;
     }
 }
